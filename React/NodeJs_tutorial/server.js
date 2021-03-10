@@ -32,7 +32,7 @@ app.get('/api/customers', (req, res) => {
     );
 });
 
-app.use('/image', express.static('./upload'));
+app.use('/image', express.static('./upload')); //이미지 폴더에서 업로드 폴더에 전송
 
 app.post('/api/customers', upload.single('image'), (req, res) => {
     let sql = 'INSERT INTO CUSTOMER VALUES (null, ?, ?, ?, ?, ?, now(), 0)';
