@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import Customers from './components/Customers';
+import CustomersAdd from './components/CustomersAdd';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -10,29 +11,37 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import { withStyles } from '@material-ui/core/styles';
 
-const customers =[
-  {
-    id : 1,
-      image : "https://placeimg.com/64/64/1",
-      name: "홍길동",
-      birthday: "000808",
-      gender: "남자",
-      job: "성인"
-  },
-  {
-    id : 2,
-    image : "https://placeimg.com/64/64/2",
-    name: "김철수",
-    birthday: "990227",
-    gender: "여자",
-    job: "대학생"
-  }
-]
 
 function App(){
+  // 고객 데이터는 처음에 비어있다가 계속 변경됨...!
+  const [ customers, setCustomers ] = useState('');
+
+  const stateRefresh =()=>{
+    setCustomers(
+      customers = ''
+    );
+    callApi()
+      .then(res => setCustomers(res))
+      .catch(err => console.log(err))
+  }
+
+  useEffect(()=>{
+    callApi()
+      .then(res => setCustomers(res))
+      .catch(err => console.log(err))
+  }, [customers]);
+
   
+  const callApi = async() =>{
+    const response = await fetch('api/customers');
+    const body = await response.json(); //서버에서 불러온 데이터베이스를 json형태로 body라는 변수에 담아줌
+    return body;
+  }
+
   return(
-    <Paper>
+    <div>
+      <CustomersAdd stateRefresh={stateRefresh} />
+      <Paper>
         <TableContainer>
           <Table stickyHeader aria-label="sticky table">
             <TableHead>
@@ -46,14 +55,15 @@ function App(){
               </TableRow>
             </TableHead>
             <TableBody>
-                {customers.map(c => {
+                {customers ? customers.map(c => {
                   return(<Customers 
                     key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job}/>)
-                })}
+                }): ""}
             </TableBody>
           </Table>
         </TableContainer>
       </Paper>
+    </div>
   );
 }
 
