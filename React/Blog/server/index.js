@@ -17,7 +17,8 @@ mongoose.connect(MONGO_URI, {
     console.log(err);
 });
 
-const PORT = 7000;
+app.use("/api/user", require("./routes/api/user"));
+app.use("/api/auth", require("./routes/api/auth"));
 
 app.listen(PORT, (req, res)=> {
     console.log(`Server started on ${PORT} port`);
