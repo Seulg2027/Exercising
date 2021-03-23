@@ -40,7 +40,8 @@ function App(){
 
   return(
     <div>
-      <CustomersAdd stateRefresh={stateRefresh} />
+      <CustomersAdd stateRefresh={stateRefresh}
+         />
       <Paper>
         <TableContainer>
           <Table stickyHeader aria-label="sticky table">

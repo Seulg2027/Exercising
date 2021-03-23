@@ -1,11 +1,9 @@
 // 인증에 관한 라우터들
 const express = require('express');
-const { get } = require('mongoose');
 const jwt = require("jsonwebtoken");
 const { User } = require("../../models/user");
 const { auth } = require("../../middleware/auth");
 const config = require("../../config/index");
-const { post } = require('./user');
 
 const { JWT_SECRET } = config;
 

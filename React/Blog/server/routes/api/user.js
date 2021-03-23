@@ -1,8 +1,7 @@
 const express = require('express'); //1. express
-const { get } = require('mongoose'); //2. mongoose
-const jwt = require("jsonwebtoken"); //3. jsonwebtoken
+const jwt = require("jsonwebtoken"); //2. jsonwebtoken
 const { User } = require("../../models/user");
-const config = require("../../config/index"); //5. env파일에 있는 환경변수
+const config = require("../../config/index"); //3. env파일에 있는 환경변수
 
 const { JWT_SECRET } = config;
 
@@ -10,7 +9,7 @@ const router = express.Router();
 
 // Get All User / GET
 
-router.get("/api/user/", async(req, res) =>{
+router.get("/", async(req, res) =>{
     try{
         const users = await User.find(); //Schema로 만든 유저정보를 가져와줌
 
@@ -26,7 +25,7 @@ router.get("/api/user/", async(req, res) =>{
 
 // REGISTERS USER / POST
 
-router.post("/api/user/register", (req, res) =>{
+router.post("/register", (req, res) =>{
     const { name, email, password } = req.body;
 
     if(!name) return res.status(400).json({ msg: "이름을 작성해주세요."});
