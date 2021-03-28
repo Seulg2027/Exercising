@@ -1,10 +1,10 @@
 import React, { useCallback } from "react";
 import { Button, Col, Row } from "reactstrap";
 import Fade from 'react-reveal/Fade';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { LOGOUT_REQUEST } from '../redux/types';
-import { CgProfile } from '';
+import { CgProfile } from 'react-icons/cg';
 
 import LoginModal from './auth/LoginModal';
 
@@ -57,7 +57,7 @@ function Header() {
                                                     ? style.darkDropdownToggle
                                                     : style.lightDropdownToggle
                                             }>
-                                            
+                                            <CgProfile/>
                                         </Dropdown.Toggle>
                                         <Dropdown.Menu style={{ padding: "0"}}>
                                             <Dropdown.Item style={style.dropdownItem}>

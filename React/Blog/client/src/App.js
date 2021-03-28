@@ -5,7 +5,7 @@ import store, { history } from "./store";
 import Router from "./routes/Router";
 
 import "./assets/custom.css";
-import "bootstrap/dist/css/bootstrap.mis.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (
