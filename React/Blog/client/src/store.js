@@ -1,6 +1,6 @@
-import { createStore, compose, applyMiddleware } from "redux";
-import createSagaMiddleware from "redux-saga";
-import { createBrowserHistory } from "history";
+import { createStore, compose, applyMiddleware } from "redux"; //1. redux
+import createSagaMiddleware from "redux-saga"; //2. redux-saga
+import { createBrowserHistory } from "history"; //3. history
 import { routerMiddleware } from "connected-react-router";
 
 import createRootReducer from "./redux/reducers/index";

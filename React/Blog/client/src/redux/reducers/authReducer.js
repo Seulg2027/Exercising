@@ -25,7 +25,6 @@ const initialState ={
     userRole: "",
     errorMsg: "",
     successMsg: "",
-    previousMatchMsg: "",
 }
 
 const authReducer = (state = initialState, action) =>{
@@ -83,13 +82,11 @@ const authReducer = (state = initialState, action) =>{
             return{
                 ...state,
                 errorMsg: "",
-                previousMatchMsg: "",
             };
         case CLEAR_ERROR_FAILURE:
             return{
                 ...state,
                 errorMsg: "Clear Error Fail",
-                previousMatchMsg: "Clear Error Fail",
             };
         
         default:

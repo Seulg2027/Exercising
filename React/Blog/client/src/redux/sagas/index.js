@@ -1,6 +1,7 @@
-import { all, fork } from "redux-saga/effects";
-import axios from "axios";
+import { all, fork } from "redux-saga/effects"; //1. redux-saga 모듈
+import axios from "axios"; //2. axios
 
+// config,, 인증
 import dotenv from "dotenv";
 dotenv.config();
 
