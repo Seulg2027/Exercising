@@ -3,12 +3,13 @@ import axios from "axios"; //2. axios
 
 // config,, 인증
 import dotenv from "dotenv";
+import authSaga from "./authSaga";
 dotenv.config();
 
 axios.defaults.baseURL = process.env.REACT_APP_BASIC_SERVER_URL;
 
 export default function* rootSaga() {
-  yield all([]);
+  yield all([fork(authSaga)]);
 }
 // function* => generator function
 // 함수가 특정 지점에서 끝나고 다음 실행 때는 끝난 지점에서 다시 시작

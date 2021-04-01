@@ -1,12 +1,13 @@
 import React, { useCallback } from "react";
 import { Button, Col, Row } from "reactstrap";
-import Fade from 'react-reveal/Fade';
+import Fade from 'react-reveal/Fade'; //스타일 속성
 import { useDispatch, useSelector } from 'react-redux';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { LOGOUT_REQUEST } from '../redux/types';
 import { CgProfile } from 'react-icons/cg';
 
 import LoginModal from './auth/LoginModal';
+
 
 function Header() {
     // authReducer에 저장된 isAuthenticated 변수를 가져온다.

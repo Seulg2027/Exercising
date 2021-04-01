@@ -30,6 +30,7 @@ function* loginUser(loginaction) {
             type: LOGIN_SUCCESS,
             payload: result.data,
         });
+        console.log("login saga,,")
     } catch (e){
         yield put({
             type: LOGIN_FAILURE,

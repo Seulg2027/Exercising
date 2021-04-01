@@ -45,6 +45,7 @@ function LoginModal() {
             type: LOGIN_REQUEST,
             payload: user,
         });
+        console.log("로그인버튼 클릭");
     };
     
     // modal을 켜고 끄는 함수!
