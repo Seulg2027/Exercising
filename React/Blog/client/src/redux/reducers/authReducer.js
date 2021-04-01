@@ -43,7 +43,7 @@ const authReducer = (state = initialState, action) =>{
                 ...action.payload,
                 isAuthenticated: true,
                 isLoading: false,
-                userId: action.payload.user.id, // type은 정해진건데... payload는 어디에서 정해졌을까ㅠ
+                userId: action.payload.user.id, 
                 userRole: action.payload.user.role,
                 errorMsg: "",
             };

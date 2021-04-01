@@ -13,8 +13,6 @@ function Router() {
                 <Container>
                 <Switch>
                     <Route path="/" exact component={Main} />
-                    <Route path="/footer" exact component={Footer} />
-                    <Route path="/header" exact component={Header} />
                 </Switch>
                 </Container>
             <Footer/>
