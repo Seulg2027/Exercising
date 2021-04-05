@@ -1,0 +1,11 @@
+// GlobalStyle을 설정해준다
+
+import { createGlobalStyle } from 'styled-components';
+
+export const Globalstyles = createGlobalStyle`
+    body {
+        background: ${({ theme }) => theme.body};
+        color: ${({ theme }) => theme.text};
+        transition: all 0.5s linear;
+    }
+`;
