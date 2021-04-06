@@ -5,8 +5,6 @@ html > body {
   overflow-x: hidden;
   font-family: "Montserrat", sans-serif;
   height: "100vh";
-   color: white;
-   background-color: #212529;
 }
 
 #content {

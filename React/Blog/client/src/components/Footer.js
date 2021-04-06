@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col } from "reactstrap";
 import Fade from "react-reveal/Fade";
 
-function Footer() {
+function Footer({theme}) {
     return (
         <Fade bottom>
             <div className="text-center p-2">
@@ -12,7 +12,11 @@ function Footer() {
                             &copy;
                             <a
                                 href="http://github.com/Lee-developer-git"
-                                className="text-decoration-none text-white"
+                                className={
+                                    theme === "dark"
+                                        ? "text-decoration-none text-white"
+                                        : "text-decoration-none text-dark"
+                                }
                                 target="_blank"
                                 rel="noreferrer"
                             >

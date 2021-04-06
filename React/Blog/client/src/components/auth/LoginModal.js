@@ -14,8 +14,10 @@ import {
 } from 'reactstrap';
 import { CLEAR_ERROR_REQUEST, LOGIN_REQUEST } from '../../redux/types';
 
+import { Link } from "react-router-dom";
 
-function LoginModal() {
+
+function LoginModal({ theme }) {
     // useState
     const [ modal, setModal ] = useState(false);
     const [ localMsg, setLocalMsg ] = useState("");
@@ -71,7 +73,7 @@ function LoginModal() {
                 onClick= {handleToggle}
                 to="#"
                 className={
-                    true
+                    theme === "dark"
                     ? "text-decoration-none text-white p-0"
                     : "text-decoration-none text-dark p-0"
                 }
@@ -133,9 +135,9 @@ function LoginModal() {
                                     style={style.register}>
                                     <span>
                                         <span>Not a member?&nbsp;&nbsp; </span>
-                                        <a href="/register" className="text-decoration-none">
+                                        <Link to="/register" className="text-decoration-none">
                                             REGISTER
-                                        </a>
+                                        </Link>
                                     </span>
                                 </div>
                             </div>

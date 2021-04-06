@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { LOGOUT_REQUEST } from '../redux/types';
 import { CgProfile } from 'react-icons/cg';
+import { Link } from "react-router-dom";
 
 import LoginModal from './auth/LoginModal';
 
 
-function Header() {
+function Header({ theme }) {
     // authReducer에 저장된 isAuthenticated 변수를 가져온다.
     const { isAuthenticated } = useSelector((state)=> state.auth);
 
@@ -32,17 +33,17 @@ function Header() {
                 <Row>
                     <Col xs="0" sm="4"></Col>
                     <Col xs="0" sm="4">
-                        <a
+                        <Link
                             href="/"
                             className ={
-                                true 
+                                theme === "dark" 
                                 ? "d-flex justify-content-center pt-4 text-white text-decoration-none"
                                 : "d-flex justify-content-center pt-4 text-dark text-decoration-none"
                             }
                             style={style.logo}
                         >
                             <b>블로그</b>
-                        </a>
+                        </Link>
                     </Col>
                     <Col xs="0" sm="4">
                         <div //컨테이너 사용
@@ -54,7 +55,7 @@ function Header() {
                                         <Dropdown.Toggle
                                             id="dropdown-basic"
                                             style={
-                                                true
+                                                theme === "dark"
                                                     ? style.darkDropdownToggle
                                                     : style.lightDropdownToggle
                                             }>
@@ -69,18 +70,19 @@ function Header() {
                                             </Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown>
-                                ) : (<LoginModal />)}
+                                ) : (<LoginModal theme={theme}/>)}
                             </span>
-                            <a 
-                                href="/contact"
+                            <Link 
+                                to="/contact"
                                 className={
-                                    true ? "text-decoration-none text-white"
-                                         : "text-decoration-none text-dark"
+                                    theme === "dark"
+                                        ? "text-decoration-none text-white"
+                                        : "text-decoration-none text-dark"
                                 }
                                 style={style.contactButton}
                             >
                                 CONTACT
-                            </a>
+                            </Link>
                         </div>
                     </Col>
                 </Row>
