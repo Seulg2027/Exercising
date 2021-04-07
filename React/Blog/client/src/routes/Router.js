@@ -5,7 +5,7 @@ import { Route, Switch } from "react-router-dom";
 //theme에 관한 import
 import { ThemeProvider } from "styled-components"; //ThemeProvider로 감싼 component들은 theme을 전달받아서 사용가능
 import { lightTheme, darkTheme } from "../assets/theme";
-import { Globalstyles } from "../assets/global";
+import { GlobalStyles } from "../assets/global";
 import { useDarkMode } from "../assets/useDarkMode";
 import Toggle from "../assets/Toggle";
 
@@ -26,13 +26,13 @@ function Router() {
     let HideHeader =
         window.location.pathname
             === "/register" ? null : window.location.pathname
-            === "/findpassword" ? null : (<Header theme={themeMode} />);
+            === "/findpassword" ? null : (<Header theme={theme} />);
     
     if (!mountedComponent) return <div />;
     
     return (
         <ThemeProvider theme={themeMode}>
-            <Globalstyles />
+            <GlobalStyles />
             {HideHeader}
             <Fade right>
                 <Toggle theme={theme} toggleTheme={themeToggler} />

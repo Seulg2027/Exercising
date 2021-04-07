@@ -79,7 +79,7 @@ const authReducer = (state = initialState, action) =>{
                 errorMsg: "",
             };
         
-        // 에러 잡기
+        // LoginModal의 에러메세지 없애기
         case CLEAR_ERROR_REQUEST:
             return{
                 ...state,

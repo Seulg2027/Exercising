@@ -10,7 +10,6 @@ const router = express.Router();
 const dotenv = require("dotenv");
 const moment = require("moment");
 const { isNullOrUndefined } = require("util");
-const { runInNewContext } = require("vm");
 
 dotenv.config();
 
@@ -31,7 +30,7 @@ router.get("/", async(req, res) => {
 });
 
 //WRITE A POST /POST
-router.post("/write", auth, async(req, res, post) => {
+router.post("/write", auth, async(req, res, next) => {
     try{
         const { title, contents, fileUrl, creator, category } = req.body;
 

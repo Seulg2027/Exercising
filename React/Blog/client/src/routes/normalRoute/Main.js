@@ -9,11 +9,13 @@ function MainBody({ theme }) {
             <Fade bottom>
                 <Container 
                     id="content"
-                    className= "d-flex justify-content-center text-center align-items"
+                    className= "d-flex justify-content-center text-center align-items-center font-weight-bold"
                     style={style.container}>
-                    <Row>
-                        Blog
-                    </Row>
+                    <Fade left>
+                        <Row>
+                            Blog
+                        </Row>
+                    </Fade>
                 </Container>
             </Fade>
         </>

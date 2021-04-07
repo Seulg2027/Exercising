@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { LOGOUT_REQUEST } from '../redux/types';
 import { CgProfile } from 'react-icons/cg';
-import { Link } from "react-router-dom";
 
 import LoginModal from './auth/LoginModal';
 
@@ -31,9 +30,9 @@ function Header({ theme }) {
         <>
             <Fade top>
                 <Row>
-                    <Col xs="0" sm="4"></Col>
-                    <Col xs="0" sm="4">
-                        <Link
+                    <Col xs="0" sm="5"></Col>
+                    <Col xs="6" sm="2">
+                        <a
                             href="/"
                             className ={
                                 theme === "dark" 
@@ -43,9 +42,9 @@ function Header({ theme }) {
                             style={style.logo}
                         >
                             <b>블로그</b>
-                        </Link>
+                        </a>
                     </Col>
-                    <Col xs="0" sm="4">
+                    <Col xs="5" sm="2">
                         <div //컨테이너 사용
                             className="d-flex justify-content-center"
                             style={style.container}> 
@@ -72,8 +71,8 @@ function Header({ theme }) {
                                     </Dropdown>
                                 ) : (<LoginModal theme={theme}/>)}
                             </span>
-                            <Link 
-                                to="/contact"
+                            <a 
+                                href="/contact"
                                 className={
                                     theme === "dark"
                                         ? "text-decoration-none text-white"
@@ -82,7 +81,7 @@ function Header({ theme }) {
                                 style={style.contactButton}
                             >
                                 CONTACT
-                            </Link>
+                            </a>
                         </div>
                     </Col>
                 </Row>

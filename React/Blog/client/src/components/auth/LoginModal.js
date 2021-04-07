@@ -14,8 +14,6 @@ import {
 } from 'reactstrap';
 import { CLEAR_ERROR_REQUEST, LOGIN_REQUEST } from '../../redux/types';
 
-import { Link } from "react-router-dom";
-
 
 function LoginModal({ theme }) {
     // useState
@@ -135,9 +133,9 @@ function LoginModal({ theme }) {
                                     style={style.register}>
                                     <span>
                                         <span>Not a member?&nbsp;&nbsp; </span>
-                                        <Link to="/register" className="text-decoration-none">
+                                        <a href="/register" className="text-decoration-none">
                                             REGISTER
-                                        </Link>
+                                        </a>
                                     </span>
                                 </div>
                             </div>

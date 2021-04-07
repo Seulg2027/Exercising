@@ -5,6 +5,7 @@ const { User } = require("../../models/user");
 const { auth } = require("../../middleware/auth");
 const config = require("../../config/index");
 const bcrypt = require("bcryptjs");
+const { json } = require('express');
 
 const { JWT_SECRET } = config;
 
@@ -38,7 +39,8 @@ router.post("/login", (req, res)=>{
                     user : {
                         id: user.id,
                         name: user.name,
-                        email: user.email
+                        email: user.email,
+                        role: user.role,
                     }
                 })
                 console.log("로그인");
@@ -56,11 +58,12 @@ router.post("/logout", (req,res)=>{
 // Authentication / GET //auth를 거쳐서 간다
 router.get("/user", auth, async(req, res)=>{
     try {
-        const user = await User.findById(req.user.id).select(".password");
+        const user = await User.findById(req.user.id).select("-password");
         
         if(!user){
             return res.status(400).json({msg: "유저가 존재하지 않습니다."});
         }
+        res.json(user);
     } catch(e) {
         res.status(400).json({ msg: e.message });
     }
