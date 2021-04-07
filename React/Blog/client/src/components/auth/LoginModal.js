@@ -71,7 +71,7 @@ function LoginModal({ theme }) {
         <div>
             <NavLink
                 onClick= {handleToggle}
-                to="#"
+                href="#"
                 className={
                     theme === "dark"
                     ? "text-decoration-none text-white p-0"
@@ -93,10 +93,10 @@ function LoginModal({ theme }) {
                     { localMsg ? <Alert color="danger">{localMsg}</Alert> : null}
                     <Form onSubmit={onSubmit}>
                         <FormGroup> 
-                            <div id="line" className="mb-4" style={style.textLine}>
+                            <div id="line" className="mb-3" style={style.textLine}>
                                 소셜 계정으로 로그인
                             </div>
-                            <div id="line" className="mb-2" style={style.textLine}>
+                            <div id="line" className="mt-2 mb-2" style={style.textLine}>
                                 이메일로 로그인
                             </div>
                             <div style={style.emailLogin}>

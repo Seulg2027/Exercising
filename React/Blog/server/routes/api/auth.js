@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { User } = require("../../models/user");
 const { auth } = require("../../middleware/auth");
 const config = require("../../config/index");
+const bcrypt = require("bcryptjs");
 
 const { JWT_SECRET } = config;
 
@@ -15,13 +16,11 @@ const router = express.Router();
 router.post("/login", (req, res)=>{
     const { email, password } = req.body;
     
-    if(!name)
-        return res.status(400).json({ msg: "이름을 작성해주세요."});
-    else if(!email) return res.status(400).json({msg: "이메일을 작성해주세요"});
+    if(!email) return res.status(400).json({msg: "이메일을 작성해주세요"});
     else if(!password) return res.status(400).json({msg: "비밀번호를 작성해주세요"});
 
    User.findOne({email}).then((user)=>{
-      if(user) return res.status(400).json({ msg: "이미 존재하는 유저입니다."});
+      if(!user) return res.status(400).json({ msg: "존재하지 않는 유저입니다."});
 
       bcrypt.compare(password, user.password).then((isMatch) =>{
           if(!isMatch) {
@@ -42,6 +41,7 @@ router.post("/login", (req, res)=>{
                         email: user.email
                     }
                 })
+                console.log("로그인");
             }
         )
       })

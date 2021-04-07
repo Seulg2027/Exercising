@@ -2,6 +2,7 @@ const express = require('express'); //1. express
 const jwt = require("jsonwebtoken"); //2. jsonwebtoken
 const { User } = require("../../models/user");
 const config = require("../../config/index"); //3. env파일에 있는 환경변수
+const bcrypt = require("bcryptjs");
 
 const { JWT_SECRET } = config;
 

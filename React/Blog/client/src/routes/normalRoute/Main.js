@@ -3,7 +3,7 @@ import { Container, Row } from 'reactstrap';
 import Fade from 'react-reveal/Fade';
 
 
-function MainBody() {
+function MainBody({ theme }) {
     return(
         <>
             <Fade bottom>

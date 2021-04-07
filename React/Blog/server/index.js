@@ -23,7 +23,7 @@ app.use(
     })
 )
 
-app.use(morgan("dev")); //통신에 대한 log를 보여준다. 개발하는 과정에서만 morgan 보여준다.
+app.use(morgan("dev")); //통신에 대한 log를 보여준다. 개발하는 과정에서만 morgan 보여준다. backend랑 클라언트랑,,
 app.use(express.json());
 // body-parser 대신 사용
 // post 통신 시 data를 주고받기 위해서 사용

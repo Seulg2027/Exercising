@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Container } from "reactstrap";
 import { Route, Switch } from "react-router-dom";
 

@@ -1,4 +1,5 @@
 // 라이트, 다크모드
+// css를 객체형식으로 쓴다.
 
 export const darkTheme = {
     body: "#212529",
