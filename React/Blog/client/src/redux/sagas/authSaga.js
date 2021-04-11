@@ -12,7 +12,10 @@ import {
     LOGOUT_FAILURE,
     REGISTER_SUCCESS,
     REGISTER_FAILURE,
-    REGISTER_REQUEST
+    REGISTER_REQUEST,
+    CHANGE_PASSWORD_REQUEST,
+    CHANGE_PASSWORD_SUCCESS,
+    CHANGE_PASSWORD_FAILURE
 } from "../types";
 
 
@@ -33,7 +36,6 @@ function* loginUser(loginaction) {
             type: LOGIN_SUCCESS,
             payload: result.data,
         });
-        console.log("login saga,,")
     } catch (e){
         yield put({
             type: LOGIN_FAILURE,
@@ -47,6 +49,7 @@ function* watchLoginUser() {
     yield takeEvery(LOGIN_REQUEST, loginUser);
 }
 
+// Logout
 function* logout() {
     try{
         yield put({
@@ -110,7 +113,38 @@ function* watchregisterUser() {
     yield takeEvery(REGISTER_REQUEST, registerUser)
 }
 
+//Change password
+const findPasswordAPI =(findpasswordData)=>{
+    const config ={
+        headers : {
+            "Content-Type": "application/json",
+        },
+    };
+    return axios.post("api/user/changepassword", findpasswordData, config);
+}
+
+function* findPassword(action) {
+    const result = yield call(findPasswordAPI, action.payload);
+    try {
+        yield put({
+            type: CHANGE_PASSWORD_SUCCESS,
+            payload: result.data,
+        });
+        console.log("비번 바꾸기 saga");
+    } catch (e) {
+        yield put({
+            type: CHANGE_PASSWORD_FAILURE,
+            payload: e.response,
+        });
+        console.log("비번 바꾸기 실패 saga");
+    }
+}
+
+function* watchfindPassword() {
+    yield takeEvery(CHANGE_PASSWORD_REQUEST, findPassword)
+}
+
 //takeEvery함수만 모아서,, export시켜준다
 export default function* authSaga() {
-    yield all ([fork(watchLoginUser), fork(watchlogout), fork(watchclearError), fork(watchregisterUser)]);
+    yield all ([fork(watchLoginUser), fork(watchlogout), fork(watchclearError), fork(watchregisterUser), fork(watchfindPassword)]);
 }

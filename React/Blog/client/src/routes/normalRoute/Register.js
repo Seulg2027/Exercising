@@ -5,7 +5,7 @@ import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 import { REGISTER_REQUEST } from '../../redux/types';
 
 function Register() {
-    const {isAuthenticated} = useSelector((state)=> state.auth);
+    const { isAuthenticated } = useSelector((state)=> state.auth);
     
     const [form, setValue] = useState({
         name:"",
@@ -84,10 +84,10 @@ function Register() {
                             <FormGroup>
                                 <Label for="password" >PASSWORD</Label>
                                 <Input 
-                                    type="name"
-                                    name="name"
-                                    id="name"
-                                    placeholder="Name"
+                                    type="password"
+                                    name="password"
+                                    id="password"
+                                    placeholder="Password"
                                     onChange={onChange}
                                 />
                             </FormGroup>

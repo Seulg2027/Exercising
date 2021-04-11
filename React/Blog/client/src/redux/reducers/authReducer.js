@@ -10,7 +10,10 @@ import {
     CLEAR_ERROR_FAILURE,
     REGISTER_REQUEST,
     REGISTER_SUCCESS,
-    REGISTER_FAILURE
+    REGISTER_FAILURE,
+    CHANGE_PASSWORD_REQUEST,
+    CHANGE_PASSWORD_SUCCESS,
+    CHANGE_PASSWORD_FAILURE
 } from '../types';
 
 
@@ -32,6 +35,7 @@ const initialState ={
 
 const authReducer = (state = initialState, action) =>{
     switch (action.type) {
+        case CHANGE_PASSWORD_REQUEST:
         case REGISTER_REQUEST:
         case LOGIN_REQUEST:
         case LOGOUT_REQUEST:
@@ -40,6 +44,7 @@ const authReducer = (state = initialState, action) =>{
              errorMsg: "",
              isLoading: true,   
             };
+        case CHANGE_PASSWORD_SUCCESS:
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
             localStorage.setItem("token", action.payload.token); //
@@ -52,6 +57,7 @@ const authReducer = (state = initialState, action) =>{
                 userRole: action.payload.user.role,
                 errorMsg: "",
             };
+        case CHANGE_PASSWORD_FAILURE:
         case REGISTER_FAILURE:
         case LOGOUT_FAILURE:
         case LOGIN_FAILURE:
