@@ -45,6 +45,11 @@ const authReducer = (state = initialState, action) =>{
              isLoading: true,   
             };
         case CHANGE_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                isPasswordChange: true,
+                isLoading: false,
+            }
         case REGISTER_SUCCESS:
         case LOGIN_SUCCESS:
             localStorage.setItem("token", action.payload.token); //
@@ -58,6 +63,12 @@ const authReducer = (state = initialState, action) =>{
                 errorMsg: "",
             };
         case CHANGE_PASSWORD_FAILURE:
+             return {
+                 ...state,
+                 isPasswordChange: false,
+                 errorMsg: action.payload.data.msg,
+                 isLoading: false,
+             }
         case REGISTER_FAILURE:
         case LOGOUT_FAILURE:
         case LOGIN_FAILURE:

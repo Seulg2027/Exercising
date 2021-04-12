@@ -20,7 +20,7 @@ function Findpassword() {
         const ChangeUser = {email, password};
         dispatch({
             type: CHANGE_PASSWORD_REQUEST,
-            payload: form,
+            payload: ChangeUser,
         })
     }
 
@@ -53,6 +53,7 @@ function Findpassword() {
                         <Input
                             type="email"
                             id="email"
+                            name="email"
                             placeholder="Email"
                             onChange={onChange}/>
                     </FormGroup>
@@ -63,12 +64,13 @@ function Findpassword() {
                         <Input 
                             type="password"
                             id="password"
+                            name="password"
                             placeholder="Password"
                             onChange={onChange}/>
                     </FormGroup>
                     <FormGroup>
-                        <div className="d-flex justify-content-center">
-                            <Button>확인</Button>
+                        <div style={{width:"100%"}}>
+                            <Button className="d-flex justify-content-center" style={{width:"100%"}}>확인</Button>
                         </div>
                     </FormGroup>
                 </Form>
