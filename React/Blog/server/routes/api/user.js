@@ -93,10 +93,11 @@ router.post("/changepassword", async (req, res) => {
               user.id,
               { password: hash },
               { new: true }
-            );
+            ); // mongoDB함수
             res.json("success");
           } catch (e) {
             console.log(e);
+            res.json({ msg: e});
           }
         });
       });
