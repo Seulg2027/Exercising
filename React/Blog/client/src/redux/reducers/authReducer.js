@@ -13,7 +13,10 @@ import {
     REGISTER_FAILURE,
     CHANGE_PASSWORD_REQUEST,
     CHANGE_PASSWORD_SUCCESS,
-    CHANGE_PASSWORD_FAILURE
+    CHANGE_PASSWORD_FAILURE,
+    USER_LOADING_REQUEST,
+    USER_LOADING_SUCCESS,
+    USER_LOADING_FAILURE
 } from '../types';
 
 
@@ -111,7 +114,29 @@ const authReducer = (state = initialState, action) =>{
                 ...state,
                 errorMsg: "Clear Error Fail",
             };
-        
+
+        case USER_LOADING_REQUEST:
+            return{
+                ...state,
+                isLoading: true,
+            }
+        case USER_LOADING_SUCCESS:
+            return{
+                ...state,
+                isAuthenticated: true,
+                isLoading: false,
+                user: action.payload._id,
+                userName: action.payload.name,
+                userRole: action.payload.role,
+            }
+        case USER_LOADING_FAILURE:
+            return{
+                ...state,
+                user: null,
+                isAuthenticated: false,
+                isLoading: false,
+                userRole: "",
+            }
         default:
             return state;
     }

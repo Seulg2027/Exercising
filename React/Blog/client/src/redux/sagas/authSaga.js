@@ -15,11 +15,14 @@ import {
     REGISTER_REQUEST,
     CHANGE_PASSWORD_REQUEST,
     CHANGE_PASSWORD_SUCCESS,
-    CHANGE_PASSWORD_FAILURE
+    CHANGE_PASSWORD_FAILURE,
+    USER_LOADING_REQUEST,
+    USER_LOADING_SUCCESS,
+    USER_LOADING_FAILURE
 } from "../types";
 
 
-const loginUserAPI = (loginData) =>{
+const loginUserAPI = (loginData) =>{ //토큰은 로그인이 되어야 생성이 된다.
     const config = {
         headers: {
             "Content-Type": "application/json",
@@ -144,7 +147,41 @@ function* watchfindPassword() {
     yield takeEvery(CHANGE_PASSWORD_REQUEST, findPassword)
 }
 
+// userLoading 함수
+const userLoadingAPI = (token) => {
+    const config ={
+        headers: {
+            "Content-Type": "application/json",
+        }
+    }
+    
+    if(token) {
+        config.headers["x-auth-token"] = token;
+    }
+    return axios.get("api/auth/user", config);
+}
+
+function* userLoading(action) {
+    try {
+        const result = yield call(userLoadingAPI, action.payload);
+
+        yield put({
+            type: USER_LOADING_SUCCESS,
+            payload: result.data,
+        });
+    } catch(e) {
+        yield put({
+            type: USER_LOADING_FAILURE,
+            payload: e.response,
+        })
+    }
+}
+
+function* watchuserLoading() {
+    yield takeEvery(USER_LOADING_REQUEST, userLoading);
+}
+
 //takeEvery함수만 모아서,, export시켜준다
 export default function* authSaga() {
-    yield all ([fork(watchLoginUser), fork(watchlogout), fork(watchclearError), fork(watchregisterUser), fork(watchfindPassword)]);
+    yield all ([fork(watchLoginUser), fork(watchlogout), fork(watchclearError), fork(watchregisterUser), fork(watchfindPassword), fork(watchuserLoading)]);
 }

@@ -113,18 +113,19 @@ router.delete("/:id", auth, async(req, res) => {
     await Comment.deleteMany({ post: req.params.id });
     await User.findByIdAndUpdate(req.user.id, {
         $pull: {
-            post: req.params.id,
+            posts: req.params.id,
             comments: {post_id: req.params.id},
         },
     });
 
-    const CategoryUpdateResult = await Category.findByIdAndUpdate(
+    const CategoryUpdateResult = await Category.findOneAndUpdate(
         { posts: req.params.id }, // 카테고리에 있는 포스트 선택
         { $pull: { posts: req.params.id }}, //리액트 카테고리에 있는 포스트중에 삭제
         { new: true }
     );
 
     // 카테고리별로 게시글을 지워라.
+    // 카테고리에 있는 게시글이 없을 때 카테고리를 삭제해 줌
     if ( CategoryUpdateResult.posts.length === 0 ){
         await Category.deleteMany({ _id: CategoryUpdateResult });
     }
