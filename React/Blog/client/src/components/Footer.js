@@ -20,9 +20,9 @@ function Footer({theme}) {
                                 target="_blank"
                                 rel="noreferrer"
                             >
-                            <b>Seulgi</b>
+                                <b>Blog</b>
                             </a>
-                            , I built a blog in <b>2021</b>
+                            , <b>2021</b>
                         </p>
                     </Col>
                 </Row>
