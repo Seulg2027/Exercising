@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { all, call, put, takeEvery } from "redux-saga/effects";
+import { all, call, put, takeEvery, fork } from "redux-saga/effects";
 import { push } from "connected-react-router";
 import {
     POST_LOADING_REQUEST,

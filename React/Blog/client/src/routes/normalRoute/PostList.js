@@ -1,12 +1,12 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { POST_LOADING_REQUEST } from '../../redux/types';
 import { Helmet } from 'react-helmet';
 // react-helmet : 문서 헤드에 대한 모든 변경사항을 관리할 수 있는 컴포넌트
 // html 태그를 끌어와 사용할 수 있어서 편리하다고함
 
 import { Alert, Row } from 'reactstrap';
-import { GrowingSpinner } from '../../components/spinner';
+import { GrowingSpinner } from '../../components/spinner/Spinner';
 import PostCardOne from '../../components/post/PostCardOne';
 import Category from '../../components/post/Category';
 

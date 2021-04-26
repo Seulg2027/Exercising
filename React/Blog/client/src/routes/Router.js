@@ -16,6 +16,7 @@ import Footer from "../components/Footer";
 import Main from "./normalRoute/Main";
 import Register from './normalRoute/Register';
 import Findpassword from './normalRoute/Findpassword';
+import PostList from './normalRoute/PostList';
 
 function Router() {
     // mountedComponent는 컴포넌트가 mount되는지 안되는지 구별
@@ -43,6 +44,7 @@ function Router() {
                     <Route path="/" exact render={()=> <Main theme={theme}/>} />
                     <Route path="/register" exact component={Register} />
                     <Route path="/findpassword" exact component={Findpassword} />
+                    <Route path="/postlist" exact render={() => <PostList /> } />
                 </Switch>
             </Container>
             <Footer theme={theme}/>
