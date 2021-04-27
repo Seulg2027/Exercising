@@ -2,6 +2,9 @@ import {
     POST_LOADING_REQUEST,
     POST_LOADING_SUCCESS,
     POST_LOADING_FAILURE,
+    POST_UPLOAD_REQUEST,
+    POST_UPLOAD_SUCCESS,
+    POST_UPLOAD_FAILURE,
 } from "../types";
 
 
@@ -39,7 +42,24 @@ export default function (state = initialState, action) {
                 ...state,
                 loading: false,
             };
-        
+        case POST_UPLOAD_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case POST_UPLOAD_SUCCESS:
+            return {
+                ...state,
+                posts: action.payload,
+                isAuthenticated: true,
+                loading: false,
+            };
+        case POST_UPLOAD_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+                loading: false,
+            };
         default:
             return state;
     }

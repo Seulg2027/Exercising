@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { Button, Col, Row } from "reactstrap";
+import { Button, Col, Form, Row } from "reactstrap";
 import Fade from 'react-reveal/Fade'; //스타일 속성
 import { useDispatch, useSelector } from 'react-redux';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -10,8 +10,28 @@ import LoginModal from './auth/LoginModal';
 
 
 function Header({ theme }) {
+    const style = {
+        logo: { fontSize: "2.3rem", transition: "all 0.50s linear" },
+        container: {
+          marginRight: "5rem",
+          paddingTop: "2.7rem",
+        },
+        dropdownToggle: {
+          backgroundColor: `${theme === "dark" ? "#212529" : "white"}`,
+          color: `${theme === "dark" ? "white" : "#212529"}`,
+          border: "0",
+          fontSize: "1.2rem",
+          paddingTop: "0",
+          transition: "all 0.50s linear",
+        },
+        dropdownItem: {
+          padding: "0",
+        },
+        logoutButton: { backgroundColor: "white", color: "#212529" },
+        contactButton: { fontSize: "1.2rem", transition: "all 0.50s linear" },
+      };
     // authReducer에 저장된 isAuthenticated 변수를 가져온다.
-    const { isAuthenticated } = useSelector((state)=> state.auth);
+    const { isAuthenticated, userRole } = useSelector((state)=> state.auth);
 
     // dispatch 리액트 훅!
     const dispatch = useDispatch();
@@ -47,7 +67,21 @@ function Header({ theme }) {
                     <Col xs="5" sm="2">
                         <div //컨테이너 사용
                             className="d-flex justify-content-center"
-                            style={style.container}> 
+                            style={style.container}>
+                            <span>
+                                {userRole === "Master" ? (
+                                    <Form>
+                                        <a
+                                            href="/postWrite"
+                                            className="btn btn-success block text-white text-decoration-none"
+                                        >
+                                            Add Post
+                                        </a>
+                                    </Form>
+                                ) : (
+                                    ""
+                                )}
+                            </span>
                             <span className="mr-5">
                                 {isAuthenticated ? (
                                     <Dropdown>
@@ -84,6 +118,7 @@ function Header({ theme }) {
                             </a>
                         </div>
                     </Col>
+
                 </Row>
             </Fade>
         </>

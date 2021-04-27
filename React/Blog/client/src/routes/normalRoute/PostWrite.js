@@ -16,7 +16,7 @@ import Myinit from "../../components/editor/UploadAdpater";
 
 import { POST_UPLOAD_REQUEST } from "../../redux/types";
 import { formatWithOptions } from 'util';
-import e from 'express';
+
 
 function PostWrite() {
     // 인증된 유저만 게시글 작성 가능. 따라서 role: master인 유저만 가능!

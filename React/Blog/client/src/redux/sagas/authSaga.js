@@ -87,7 +87,7 @@ function* watchclearError() {
 }
 
 //Register
-const registerUserAPI =(registerData)=>{
+const registerUserAPI = (registerData)=>{
     const config ={
         headers : {
             "Content-Type": "application/json",

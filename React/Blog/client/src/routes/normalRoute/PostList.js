@@ -26,7 +26,7 @@ function PostList({ theme }) {
     // postReducer => initialState안의 변수 가져온다.
     // post 모든 게시글 / categoryFindResult 모든 카테고리의 배열
     const { posts, categoryFindResult } = useSelector(
-        (state) => state.posts
+        (state) => state.post //postReducer가 post로 내보내짐
     );
     const dispatch = useDispatch();
 
