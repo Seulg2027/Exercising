@@ -10,7 +10,7 @@ function Category({ posts }) {
                     <div key={_id} className="mr-3">
                         <a href={`/post/category/${categoryName}`}>
                             <span>
-                                <Button>{categoryName}</Button>
+                            <Button>{categoryName}</Button>
                             </span>
                         </a>
                     </div>

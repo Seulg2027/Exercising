@@ -55,11 +55,12 @@ function PostWrite() {
         if (data && data.match("<img src=")) {
             const whereImg_start = data.indexOf("<img src=");
 
-            // 이미지 태그가 끝나는 시점, 이미지의 확장자
+            // 이미지 url 지정
             let whereImg_end = "";
             let ext_name_find = "";
             let result_Img_Url = "";
 
+            // 이미지 확장자 지정
             const ext_name = ["jpeg", "png", "gif", "jpg"];
 
             for (let i=0; i<ext_name.length; i++){
