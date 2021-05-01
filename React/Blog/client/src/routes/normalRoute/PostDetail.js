@@ -164,9 +164,27 @@ function PostDetail(req) {
                                             <div key={_id} className="mb-2">
                                                 <Row className="d-flex justify-content-between p-2">
                                                     <div style={{ fontSize: "1.1rem" }}>
-
+                                                        <b>{creatorName ? creatorName : creator}</b> &nbsp;
+                                                        <span
+                                                            className="font-weight-light"
+                                                            style={{color: "gray", fontSize:"0.8em"}}
+                                                        >
+                                                            &nbsp;{date}
+                                                        </span>
                                                     </div>
                                                 </Row>
+                                                <Row className="p-2">
+                                                    <div>{contents}</div>
+                                                </Row>
+                                                {/* {creator === userId && userId ? (
+                                                    <div className="d-flex justify-content-center">
+                                                        <span
+                                                         style={{cursor: "pointer"}}
+                                                         onClick={()=> onCommentDeleteClick}>
+                                                            삭제
+                                                        </span>
+                                                    </div> 
+                                                ) : ("")} */}
                                             </div>
                                         )
                                     )
@@ -177,7 +195,14 @@ function PostDetail(req) {
                 </>
             ) : ("")}
         </Container>
-    )
+    );
+
+    return (
+        <div>
+            <Helmet title={title} />
+            {loading === true ? GrowingSpinner : Body}
+        </div>
+    );
 
 }
 
