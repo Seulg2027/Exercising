@@ -18,6 +18,7 @@ import Comments from "../../components/comments/Comments";
 
 function PostDetail(req) {
     // postDetail의 props에 이미 req가 받아짐.
+    // component로 꼭 써서 route에 받아와야함
     // 로컬스토리지에 저장해둔 theme가져온다.
     const theme = localStorage.getItem("theme");
 
@@ -45,18 +46,19 @@ function PostDetail(req) {
 
     const { userId, userName } = useSelector((state) => state.auth);
 
-    const { comments } = useSelector((state) =>  state.comment);
+    //const { comments } = useSelector((state) =>  state.comment);
 
     useEffect(() => {
         dispatch({
-            type: POST_DETAIL_LOADING_REQUEST,
-            payload: req.match.params.id,
+          type: POST_DETAIL_LOADING_REQUEST,
+          payload: req.match.params.id,
         });
+    
         dispatch({
-            type: USER_LOADING_REQUEST,
-            payload: localStorage.getItem("token"),
+          type: USER_LOADING_REQUEST,
+          payload: localStorage.getItem("token"),
         });
-    }, [dispatch, req.match.params.id]);
+      }, [dispatch, req.match.params.id]);
 
     //게시글 삭제
     const onDeleteClick = () => {
@@ -120,7 +122,7 @@ function PostDetail(req) {
                     </div>
                 ) : ("") }
             </Row>
-            {postDetail && postDetail.comments ? (
+            {postDetail ? (
                 <>
                     <div
                         className="d-flex justify-content-between pb-4"
@@ -145,7 +147,7 @@ function PostDetail(req) {
                         </div>
                         {/* 로그인한 사용자와 작성자가 같을 시 수정삭제 버튼 */}
                         { userId === creatorId ? EditButton: ""} 
-                        <Row>
+                        {/* <Row>
                             <Container>
                                 <div
                                     style={{
@@ -157,7 +159,6 @@ function PostDetail(req) {
                                     <b>{comments.length}&nbsp;Comments</b>
                                 </div>
                                 <Comments/>
-                                {/* 댓글 출력 */}
                                 {Array.isArray(comments)
                                     ? comments.map(
                                         ({contents, creator, date, _id, creatorName }) => (
@@ -176,7 +177,7 @@ function PostDetail(req) {
                                                 <Row className="p-2">
                                                     <div>{contents}</div>
                                                 </Row>
-                                                {/* {creator === userId && userId ? (
+                                                {creator === userId && userId ? (
                                                     <div className="d-flex justify-content-center">
                                                         <span
                                                          style={{cursor: "pointer"}}
@@ -184,13 +185,13 @@ function PostDetail(req) {
                                                             삭제
                                                         </span>
                                                     </div> 
-                                                ) : ("")} */}
+                                                ) : ("")}
                                             </div>
                                         )
                                     )
                                 : "Creator"}
                             </Container>
-                        </Row>
+                        </Row> */}
                     </div>
                 </>
             ) : ("")}

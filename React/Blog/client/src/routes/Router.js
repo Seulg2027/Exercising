@@ -19,7 +19,6 @@ import Findpassword from './normalRoute/Findpassword';
 import PostList from './normalRoute/PostList';
 import PostWrite from './normalRoute/PostWrite';
 import PostDetail from './normalRoute/PostDetail';
-import { actionChannel } from '@redux-saga/core/effects';
 
 function Router() {
     // mountedComponent는 컴포넌트가 mount되는지 안되는지 구별
@@ -49,7 +48,7 @@ function Router() {
                     <Route path="/findpassword" exact component={Findpassword} />
                     <Route path="/postlist" exact render={() => <PostList theme={theme}/> } />
                     <Route path="/postwrite" exact component={PostWrite} />
-                    <Route path="/postdetail" exact render={()=> <PostDetail/>} />
+                    <Route path="/post/:id" exact component={PostDetail} />
                 </Switch>
             </Container>
             <Footer theme={theme}/>

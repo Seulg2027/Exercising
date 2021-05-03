@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
     Button,
     Col,
@@ -127,7 +127,8 @@ function PostWrite() {
                         <Button
                             color="success"
                             block
-                            className="mt-3 col-md-2 offset-md-10 mb-3">
+                            className="mt-3 col-md-2 offset-md-10 mb-3"
+                            >
                             작성하기
                         </Button>
                     </FormGroup>
