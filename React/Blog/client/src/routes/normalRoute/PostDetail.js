@@ -5,7 +5,8 @@ import {
     POST_DETAIL_LOADING_REQUEST,
     USER_LOADING_REQUEST,
     POST_DELETE_REQUEST,
-    COMMENT_DELETE_REQUEST
+    COMMENT_DELETE_REQUEST,
+    COMMENT_WRITE_REQUEST
 } from '../../redux/types';
 import { Button, Row, Container} from 'reactstrap';
 import { Link } from 'react-router-dom';
@@ -14,7 +15,6 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import BalloonEditor from "@ckeditor/ckeditor5-editor-balloon/src/ballooneditor";
 import { editorConfiguration } from "../../components/editor/EditorConfig";
 import Comments from "../../components/comments/Comments";
-
 
 function PostDetail(req) {
     // postDetail의 props에 이미 req가 받아짐.
@@ -30,11 +30,14 @@ function PostDetail(req) {
             transition: "all 0.50s linear",
         },
         editor: {
-            width: "100%",
-            height: "auto",
-            minHeight: "20vh",
-            wordBreak: "break-all",
+            width:"800px",
           },
+        date: {
+            fontSize: "0.9em",
+            width: "100px",
+            marginTop: "8px",
+            height: "20px",
+        },
     }
 
     const dispatch = useDispatch();
@@ -46,7 +49,7 @@ function PostDetail(req) {
 
     const { userId, userName } = useSelector((state) => state.auth);
 
-    //const { comments } = useSelector((state) =>  state.comment);
+    const { comments } = useSelector((state) =>  state.comment);
 
     useEffect(() => {
         dispatch({
@@ -87,6 +90,7 @@ function PostDetail(req) {
         });
     };
 
+
     // 수정 삭제 버튼 컴포넌트
     const EditButton = (
         <>
@@ -117,27 +121,28 @@ function PostDetail(req) {
             style={style.container} className="mb-4 p-3">
             <Row className="d-flex p-3 mb-1 justify-content-center mt-3 pt-5">
                 {(postDetail && creator) ? (
-                    <div className="font-weight-bold" style={{ fontSize: "2.5rem" }}>
+                    <div className="font-weight-bold" style={{ fontSize: "2rem" }}>
                         {postDetail.title}
                     </div>
                 ) : ("") }
             </Row>
-            {postDetail ? (
+            {postDetail && postDetail.comments ? (
                 <>
                     <div
-                        className="d-flex justify-content-between pb-4"
                         style={{ borderBottom: "1px solid gray" }}
                     >
-                        <span className="ml-2">
-                            <Button outline color="primary">
-                                {category.categoryName}
-                            </Button>
-                        </span>
-                        <span className="text-muted" style={{ fontSize: "1.2rem" }}>
-                            Posted on {date.split(" ")[0]}&nbsp;
-                            {date.split(" ")[1]} {date.split(" ")[2]}
-                        </span>
-                        <div className="mb-3 mt-4 p-3" style={style.editor}>
+                        <div style={{ height:"50px" }}>
+                            <span>
+                                <Button>
+                                    {category.categoryName}
+                                </Button>
+                            </span>
+                            <span className="text-muted ml-3" style={style.date}>
+                                Posted on {date.split(" ")[0]}&nbsp;
+                                {date.split(" ")[1]} {date.split(" ")[2]}
+                            </span>
+                        </div><br/><br/>
+                        <div style={style.editor}>
                             <CKEditor
                             editor={BalloonEditor}
                             data={contents}
@@ -147,15 +152,9 @@ function PostDetail(req) {
                         </div>
                         {/* 로그인한 사용자와 작성자가 같을 시 수정삭제 버튼 */}
                         { userId === creatorId ? EditButton: ""} 
-                        {/* <Row>
-                            <Container>
-                                <div
-                                    style={{
-                                        borderBottom: `1px solid ${
-                                          theme === "dark" ? "white" : "gray"
-                                        }`,
-                                    }}
-                                >
+                        <Row>
+                            <Container >
+                                <div>
                                     <b>{comments.length}&nbsp;Comments</b>
                                 </div>
                                 <Comments/>
@@ -191,7 +190,7 @@ function PostDetail(req) {
                                     )
                                 : "Creator"}
                             </Container>
-                        </Row> */}
+                        </Row>
                     </div>
                 </>
             ) : ("")}

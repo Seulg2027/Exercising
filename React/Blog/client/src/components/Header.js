@@ -73,7 +73,8 @@ function Header({ theme }) {
                                     <Form>
                                         <a
                                             href="/postWrite"
-                                            className="btn btn-success block text-white text-decoration-none"
+                                            className="btn btn-secondary block text-white text-decoration-none ml-5 mr-5"
+                                            style={{ width: "100px"}}
                                         >
                                             Add Post
                                         </a>

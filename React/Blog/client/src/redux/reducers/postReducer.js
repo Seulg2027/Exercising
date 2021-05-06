@@ -21,8 +21,6 @@ const initialState = {
     creatorId: "",
     categoryFindResult: "",
     title: "",
-    searchBy: "",
-    searchResult: "",
 }
 
 export default function (state = initialState, action) {
