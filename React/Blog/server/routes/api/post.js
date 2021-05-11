@@ -28,8 +28,20 @@ router.get('/skip/:skip', async (req, res) => {
 
         // 카테고리 가져오는 함수
         const categoryFindResult = await Category.find();
-        const result = { postFindResult, categoryFindResult };
+        const result = { postFindResult, categoryFindResult, postCount };
 
+        res.json(result);
+    } catch (e) {
+        console.log(e);
+        res.json({ msg: 'No Post' });
+    }
+});
+
+router.get('/', async (req, res) => {
+    try {
+        const postFindResult = await Post.find();
+        const categoryFindResult = await Category.find();
+        const result = { postFindResult, categoryFindResult };
         res.json(result);
     } catch (e) {
         console.log(e);
