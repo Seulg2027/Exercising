@@ -1,67 +1,75 @@
-const express = require("express");
-const { auth } = require("../../middleware/auth");
-const { Post } = require("../../models/post");
-const { Category } = require("../../models/category");
-const { User } = require("../../models/user");
-const { Comment } = require("../../models/comment");
+const express = require('express');
+const { auth } = require('../../middleware/auth');
+const { Post } = require('../../models/post');
+const { Category } = require('../../models/category');
+const { User } = require('../../models/user');
+const { Comment } = require('../../models/comment');
 
 const router = express.Router();
 
-const dotenv = require("dotenv");
-const moment = require("moment");
-const { isNullOrUndefined } = require("util");
+const dotenv = require('dotenv');
+const moment = require('moment');
+const { isNullOrUndefined } = require('util');
 
 dotenv.config();
 
-// LOADING ALL POSTS
+///////LOADING ALL POSTS/////////
+
 // 모든 포스트를 가져온다
-// get은 조회하는 함수이지,, 
-router.get("/", async(req, res) => {
-    try{
-        const postFindResult = await Post.find(); //보통 find를 쓸때는 await를 사용
+// get은 조회하는 함수이지,,
+// 스크롤을 내릴 때마다 게시글이 6개씩 추가된다.
+router.get('/skip/:skip', async (req, res) => {
+    try {
+        // mongoose 함수를 이용해서 게시글의 총 개수를 구해줌
+        const postCount = await Post.countDocuments();
+
+        // date의 내림차순 기준으로 최대 6개씩 게시글을 가져온다
+        const postFindResult = await Post.find().skip(Number(req.params.skip)).limit(6).sort({ date: -1 });
+
+        // 카테고리 가져오는 함수
         const categoryFindResult = await Category.find();
         const result = { postFindResult, categoryFindResult };
 
         res.json(result);
-    } catch(e){
+    } catch (e) {
         console.log(e);
-        res.json({ msg: "No Post"});
+        res.json({ msg: 'No Post' });
     }
 });
 
-
 // WRITE A POST /POST
-router.post("/write", auth, async(req, res) => { // 포스트 작성할 때는 포스트의 아이디가 필요없음
-    try{
+router.post('/write', auth, async (req, res) => {
+    // 포스트 작성할 때는 포스트의 아이디가 필요없음
+    try {
         const { title, contents, fileUrl, creator, category } = req.body;
 
         const newPost = await Post.create({
             title,
-            contents, 
+            contents,
             fileUrl,
             creator: req.user.id,
-            date: moment().format("MMMM DD, YYYY"), //Month가 영어로 나온다^^
+            date: moment().format('MMMM DD, YYYY'), //Month가 영어로 나온다^^
         });
 
         // 게시글 작성 시 카테고리가 있으면 findOne
         const categoryFindResult = await Category.findOne({
-            categoryName: category
+            categoryName: category,
         });
 
         // 새로운 카테고리를 만들면 실행되는 함수
-        if(isNullOrUndefined(categoryFindResult)) {
+        if (isNullOrUndefined(categoryFindResult)) {
             const newCategory = await Category.create({
                 categoryName: category,
             });
 
-            await Post.findByIdAndUpdate(newPost._id,{
+            await Post.findByIdAndUpdate(newPost._id, {
                 $push: {
                     category: newCategory._id,
                 },
             });
             await Category.findByIdAndUpdate(newCategory._id, {
-                $push : {
-                    posts : newPost._id, //mongoDB는 _id로 저장
+                $push: {
+                    posts: newPost._id, //mongoDB는 _id로 저장
                 },
             });
             await User.findByIdAndUpdate(req.user.id, {
@@ -70,74 +78,70 @@ router.post("/write", auth, async(req, res) => { // 포스트 작성할 때는 �
                 },
             });
         } else {
-            await Category.findByIdAndUpdate(categoryFindResult._id,{
+            await Category.findByIdAndUpdate(categoryFindResult._id, {
                 $push: { posts: newPost._id },
             });
             await Post.findByIdAndUpdate(newPost._id, {
-               category: categoryFindResult._id, 
+                category: categoryFindResult._id,
             });
-            await User.findByIdAndUpdate(req.user.id,{
+            await User.findByIdAndUpdate(req.user.id, {
                 $push: {
-                    posts : newPost._id
-                }
+                    posts: newPost._id,
+                },
             });
         }
 
         return res.redirect(`/api/post/${newPost._id}`);
-    }catch(e){
+    } catch (e) {
         console.log(e);
     }
 });
 
 //POST DETAIL / GET
-router.get("/:id", async(req, res, next)=>{
+router.get('/:id', async (req, res, next) => {
     try {
-        const post = await Post.findById(req.params.id)
-            .populate("creator")
-            .populate({ path : "category", select : "categoryName" });
-        
+        const post = await Post.findById(req.params.id).populate('creator').populate({ path: 'category', select: 'categoryName' });
+
         post.views += 1;
         post.save();
-        
+
         res.json(post);
-    } catch (e){
+    } catch (e) {
         console.error(e);
         next(e);
     }
 });
 
-
 // DELETE POST / DELETE
-router.delete("/:id", auth, async(req, res) => {
-    await Post.deleteMany({ _id: req.params.id}); //deleteMany 함수에서도 await를 써준다
+router.delete('/:id', auth, async (req, res) => {
+    await Post.deleteMany({ _id: req.params.id }); //deleteMany 함수에서도 await를 써준다
     await Comment.deleteMany({ post: req.params.id });
     await User.findByIdAndUpdate(req.user.id, {
         $pull: {
             posts: req.params.id,
-            comments: {post_id: req.params.id},
+            comments: { post_id: req.params.id },
         },
     });
 
     const CategoryUpdateResult = await Category.findOneAndUpdate(
         { posts: req.params.id }, // 카테고리에 있는 포스트 선택
-        { $pull: { posts: req.params.id }}, //리액트 카테고리에 있는 포스트중에 삭제
+        { $pull: { posts: req.params.id } }, //리액트 카테고리에 있는 포스트중에 삭제
         { new: true }
     );
 
     // 카테고리별로 게시글을 지워라.
     // 카테고리에 있는 게시글이 없을 때 카테고리를 삭제해 줌
-    if ( CategoryUpdateResult.posts.length === 0 ){
+    if (CategoryUpdateResult.posts.length === 0) {
         await Category.deleteMany({ _id: CategoryUpdateResult });
     }
 
     return res.json({ success: true });
 });
 
-
 // EDIT POST / POST
-router.post("/:id/edit", async(req, res, next) =>{
+router.post('/:id/edit', async (req, res, next) => {
     const {
-        body: { title, contents, fileUrl, id},
+        body: { title, contents, fileUrl, id },
     } = req;
 
     try {
@@ -147,45 +151,44 @@ router.post("/:id/edit", async(req, res, next) =>{
                 title,
                 contents,
                 fileUrl,
-                date: moment().format("MMMM DD, YYYY"),
+                date: moment().format('MMMM DD, YYYY'),
             },
             { new: true }
         );
 
         res.redirect(`/api/post/${modified_post}`);
-    } catch(e){
+    } catch (e) {
         console.log(e);
         next(e);
     }
 });
 
 // Find Category
-router.get("/category/:cateoryName", async(req, res, next) =>{
+router.get('/category/:cateoryName', async (req, res, next) => {
     try {
         const result = await Category.findOne(
             {
                 categoryName: {
                     $regex: req.params.categoryName,
-                    $options: "i",
+                    $options: 'i',
                 },
             },
-            "posts"
-        ).populate({ path: "posts" });
+            'posts'
+        ).populate({ path: 'posts' });
 
         res.send(result);
-    }catch(e){
+    } catch (e) {
         next(e);
     }
 });
 
-
 ////////// Comments Route /////////////
 
 // GET ALL COMMENTS / 조회함수,,
-router.get("/:id/comments", async(req, res) => {
+router.get('/:id/comments', async (req, res) => {
     try {
         const comment = await Post.findById(req.params.id).populate({
-            path: "comments",
+            path: 'comments',
         }); // 객체화를 시켜주는 함수
         const result = comment.comments;
         res.json(result);
@@ -195,13 +198,13 @@ router.get("/:id/comments", async(req, res) => {
 });
 
 // WRITE COMMENT
-router.post("/:id/comments", async(req, res, next)=>{
+router.post('/:id/comments', async (req, res, next) => {
     const newComment = await Comment.create({
         contents: req.body.contents,
         creator: req.body.userId,
         creatorName: req.body.userName,
         post: req.body.id,
-        date: moment().format("MMMM DD, YYYY"),
+        date: moment().format('MMMM DD, YYYY'),
     });
 
     try {
@@ -225,6 +228,19 @@ router.post("/:id/comments", async(req, res, next)=>{
         console.log(e);
         next(e);
     }
-})
+});
 
+// DELETE COMMENT
+router.delete('/comment/:id', async (req, res) => {
+    await Comment.deleteOne({ _id: req.params.id });
+    await User.findByIdAndUpdate(req.body.userId, {
+        $pull: { comments: { comment_id: req.params.id } },
+    });
+
+    await Post.findByIdAndUpdate({ comments: req.params.id }, { $pull: { comments: req.params.id } });
+
+    return res.json({ success: true });
+});
+
+// router로 보내준다
 module.exports = router;

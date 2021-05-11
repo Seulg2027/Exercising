@@ -151,7 +151,7 @@ function PostDetail(req) {
                             />
                         </div>
                         {/* 로그인한 사용자와 작성자가 같을 시 수정삭제 버튼 */}
-                        { userId === creatorId ? EditButton: ""} 
+                        { userId === creatorId ? EditButton: ""}
                         <Row>
                             <Container >
                                 <div>

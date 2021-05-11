@@ -13,7 +13,7 @@ import {
 
 const initialState = {
     isAuthenticated: "",
-    comments: "",
+    comments: [],
     creator: "",
     creatorName: "",
     date: "",
