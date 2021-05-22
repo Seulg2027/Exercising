@@ -7,21 +7,20 @@ import {
     POST_UPLOAD_FAILURE,
     POST_DETAIL_LOADING_REQUEST,
     POST_DETAIL_LOADING_SUCCESS,
-    POST_DETAIL_LOADING_FAILURE
-} from "../types";
-
+    POST_DETAIL_LOADING_FAILURE,
+} from '../types';
 
 const initialState = {
     isAuthenticated: null,
     posts: [],
-    postDetail: "",
-    postCount: "",
+    postDetail: '',
+    postCount: '',
     loading: false,
-    error: "",
-    creatorId: "",
-    categoryFindResult: "",
-    title: "",
-}
+    error: '',
+    creatorId: '',
+    categoryFindResult: '',
+    title: '',
+};
 
 export default function (state = initialState, action) {
     switch (action.type) {
@@ -68,14 +67,14 @@ export default function (state = initialState, action) {
                 loading: false,
                 postDetail: action.payload,
                 creatorId: action.payload.creator._id,
-                title: action.payload.title
+                title: action.payload.title,
             };
         case POST_DETAIL_LOADING_FAILURE:
             return {
                 ...state,
                 error: action.payload,
                 loading: false,
-            }
+            };
         default:
             return state;
     }
