@@ -1,30 +1,55 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { InputGroup, InputGroupText, InputGroupAddon, Input } from 'reactstrap';
-import { COMMENT_WRITE_REQUEST } from '../../redux/types';
+import { InputGroup, InputGroupText, InputGroupAddon, Input, Form } from 'reactstrap';
+import { COMMENT_LOADING_REQUEST, COMMENT_WRITE_REQUEST } from '../../redux/types';
 
-function Comments(req) {
+function Comments({ id, userId, userName }) {
     const dispatch = useDispatch();
+    const [form, setValues] = useState({
+        contents: '',
+    });
 
-    const onCommentWriteClick = () => {
-        dispatch({
-            type: COMMENT_WRITE_REQUEST,
-            payload: {
-                postId: req.match.params.id,
-                comment: req.match.params.Array,
-                token: localStorage.getItem('token'),
-            },
+    const onChange = (e) => {
+        setValues({
+            ...form,
+            [e.target.name]: e.target.value,
         });
     };
 
+    const onSubmit = async (e) => {
+        await e.preventDefault();
+
+        const { contents } = form;
+        const token = localStorage.getItem('token');
+        const body = { contents, token, id, userId, userName };
+
+        dispatch({
+            type: COMMENT_WRITE_REQUEST,
+            payload: body,
+        });
+
+        resetValue.current.value = '';
+        setValues('');
+    };
+    const resetValue = useRef(null);
+
+    useEffect(() => {
+        dispatch({
+            type: COMMENT_LOADING_REQUEST,
+            payload: id,
+        });
+    }, [dispatch, id]);
+
     return (
         <>
-            <InputGroup style={{ width: '400px', height: '70px' }}>
-                <Input />
-                <InputGroupAddon>
-                    <InputGroupText onClick={onCommentWriteClick}>등록</InputGroupText>
-                </InputGroupAddon>
-            </InputGroup>
+            <Form onSubmit={onSubmit}>
+                <InputGroup style={{ width: '400px', height: '70px' }}>
+                    <Input innerRef={resetValue} type="textarea" name="contents" id="contents" onChange={onChange} placeholder="comments" />
+                    <InputGroupAddon>
+                        <InputGroupText>등록</InputGroupText>
+                    </InputGroupAddon>
+                </InputGroup>
+            </Form>
         </>
     );
 }
