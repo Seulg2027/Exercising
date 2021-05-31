@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { GrowingSpinner } from '../../components/spinner/Spinner';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Row, Alert } from 'reactstrap';
 
 import { POST_LOADING_REQUEST } from '../../redux/types';
@@ -50,7 +50,7 @@ function PostList({ theme }) {
 
         useEffect(() => {
             const observer = new IntersectionObserver(([entry]) => {
-                setVisible(entry.isIntersecting); //태그가 보이는지 감시해줄 함수
+                setVisible(entry.isIntersecting); //태그가 보이는지 감시해줄 함수 //태그가 보이면 자동으로 true로 바뀜
 
                 if (entry.isIntersecting) {
                     // 포스트 개수 중 남은 것 세기
@@ -74,7 +74,7 @@ function PostList({ theme }) {
             const LastElementReturnFunc = () => {
                 if (lastPostElementRef.current) {
                     observer.unobserve(lastPostElementRef.current);
-                }
+                } // 휴식 타임이 생긴다.
             };
             return LastElementReturnFunc;
         }, [lastPostElementRef, options]);
@@ -83,7 +83,7 @@ function PostList({ theme }) {
     };
 
     const [lastPostElementRef, visible] = useOnScreen({
-        threshold: '0.5',
+        threshold: '0.5', // 얼마나 보이면?을 의미한다
     });
 
     return (
@@ -110,3 +110,5 @@ function PostList({ theme }) {
         </>
     );
 }
+
+export default PostList;

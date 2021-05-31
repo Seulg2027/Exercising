@@ -32,7 +32,9 @@ export default function (state = initialState, action) {
             };
         case POST_LOADING_SUCCESS:
             return {
+                ...state,
                 loading: false,
+                // 원래 있던 게시글 + 추가되는 게시글 //server3 봐라
                 posts: [...state.posts, ...action.payload.postFindResult],
                 categoryFindResult: action.payload.categoryFindResult,
                 postCount: action.payload.postCount,
