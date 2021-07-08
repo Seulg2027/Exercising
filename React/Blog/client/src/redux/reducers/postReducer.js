@@ -8,6 +8,9 @@ import {
     POST_DETAIL_LOADING_REQUEST,
     POST_DETAIL_LOADING_SUCCESS,
     POST_DETAIL_LOADING_FAILURE,
+    SEARCH_REQUEST,
+    SEARCH_SUCCESS,
+    SEARCH_FAILURE
 } from '../types';
 
 const initialState = {
@@ -75,6 +78,26 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 error: action.payload,
+                loading: false,
+            };
+        case SEARCH_REQUEST:
+            return {
+                ...state,
+                posts: [],
+                searchBy: action.payload,
+                loading: true,
+            };
+        case SEARCH_SUCCESS:
+            return {
+                ...state,
+                searchBy: action.payload,
+                searchResult: action.payload,
+                loading: false,
+            };
+        case SEARCH_FAILURE:
+            return {
+                ...state,
+                searchResult: action.payload,
                 loading: false,
             };
         default:

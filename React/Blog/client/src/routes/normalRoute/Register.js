@@ -99,7 +99,7 @@ function Register() {
                         </Form>
                     </Container>
                 </Fade>
-            )};
+            )}
         </>
     );
 }

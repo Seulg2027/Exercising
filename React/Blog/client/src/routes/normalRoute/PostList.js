@@ -4,6 +4,7 @@ import { GrowingSpinner } from '../../components/spinner/Spinner';
 import { useSelector, useDispatch } from 'react-redux';
 import { Row, Alert } from 'reactstrap';
 
+import SearchInput from "../../components/search/SearchInput";
 import { POST_LOADING_REQUEST } from '../../redux/types';
 import Category from '../../components/post/Category';
 import PostCardOne from '../../components/post/PostCardOne';
@@ -91,6 +92,7 @@ function PostList({ theme }) {
             <br />
             <br />
             <Helmet title="BLOG - POST" />
+            <SearchInput />
             <Row className="d-flex justify-content-center mt-3 py-2 mb-5 sticky-top rounded" style={style.categoryBox}>
                 <Category posts={categoryFindResult} />
             </Row>

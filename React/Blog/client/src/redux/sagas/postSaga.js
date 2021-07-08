@@ -14,6 +14,9 @@ import {
     POST_DELETE_REQUEST,
     POST_DELETE_SUCCESS,
     POST_DELETE_FAILURE,
+    SEARCH_REQUEST,
+    SEARCH_SUCCESS,
+    SEARCH_FAILURE
 } from '../types';
 
 // All Posts Load
@@ -145,6 +148,35 @@ function* deletePost(action) {
 function* watchdeletePost() {
     yield takeEvery(POST_DELETE_REQUEST, deletePost);
 }
+
+// Search
+const SearchResultAPI = (payload) => {
+    return axios.get(`/api/search/${payload}`);
+};
+
+function* SearchResult(action) {
+    try {
+        const result = yield call(SearchResultAPI, action.payload);
+    
+        yield put({
+            type: SEARCH_SUCCESS,
+            payload: result.data,
+        });
+        yield put(push(`/search/${action.payload}`));
+    } catch (e) {
+        yield put({
+            type: SEARCH_FAILURE,
+            payload: e,
+        });
+    
+        action.put(push("/"));
+    }
+}
+
+function* watchSearchResult() {
+    yield takeEvery(SEARCH_REQUEST, SearchResult);
+}
+
 
 export default function* postSaga() {
     yield all([fork(watchloadPosts), fork(watchuploadPost), fork(watchloadPostDetail), fork(watchdeletePost)]);

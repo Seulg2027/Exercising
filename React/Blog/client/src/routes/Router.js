@@ -11,6 +11,7 @@ import Toggle from "../assets/Toggle";
 
 import Fade from "react-reveal/Fade";
 
+import Search from './normalRoute/Search';
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Main from "./normalRoute/Main";
@@ -49,6 +50,7 @@ function Router() {
                     <Route path="/postlist" exact render={() => <PostList theme={theme}/> } />
                     <Route path="/postwrite" exact component={PostWrite} />
                     <Route path="/post/:id" exact component={PostDetail} />
+                    <Route path="/search/:searchTerm" exact render={() => <Search theme={theme} />} />
                 </Switch>
             </Container>
             <Footer theme={theme}/>

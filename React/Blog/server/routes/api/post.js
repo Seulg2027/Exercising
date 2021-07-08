@@ -124,6 +124,44 @@ router.get('/:id', async (req, res, next) => {
     }
 });
 
+// EDIT POST / POST
+// 게시글 상세 페이지 => 수정 버튼
+router.get("/:id/edit", async (req, res, next) => {
+    try {
+        const post = await Post.findById(req.params.id).populate("creator", "name");
+        // creator와 name을 실제 객체로 받아온다.
+        res.json(post);
+    } catch (e) {
+        console.log(e);
+    }
+});
+
+// 게시글 수정 페이지 => 수정
+router.post("/:id/edit", async (req, res, next)=>{
+    const {
+        body: { title, contents, fileUrl, id },
+    } = req;
+
+    try {
+        // 수정된 게시글 업데이트 해주기
+        const modified_post = await Post.findByIdAndUpdate(
+            id,
+            {
+                title,
+                contents,
+                fileUrl,
+                date: moment().format("MMMM DD, YYYY"),
+            },
+            { new: true } // 장고의 save()생각하면 편할듯
+        );
+
+        res.redirect(`/api/post/${modified_post.id}`);
+    } catch (e) {
+        console.log(e);
+        next(e);
+    }
+})
+
 // DELETE POST / DELETE
 router.delete('/:id', auth, async (req, res) => {
     await Post.deleteMany({ _id: req.params.id }); //deleteMany 함수에서도 await를 써준다
