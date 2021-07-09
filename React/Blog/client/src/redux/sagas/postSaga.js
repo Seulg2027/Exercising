@@ -8,6 +8,9 @@ import {
     POST_UPLOAD_REQUEST,
     POST_UPLOAD_SUCCESS,
     POST_UPLOAD_FAILURE,
+    POST_EDIT_UPLOADING_FAILURE,
+    POST_EDIT_UPLOADING_REQUEST,
+    POST_EDIT_UPLOADING_SUCCESS,
     POST_DETAIL_LOADING_REQUEST,
     POST_DETAIL_LOADING_SUCCESS,
     POST_DETAIL_LOADING_FAILURE,
@@ -149,6 +152,41 @@ function* watchdeletePost() {
     yield takeEvery(POST_DELETE_REQUEST, deletePost);
 }
 
+// Post Edit Upload
+const PostEditUploadAPI = (payload) => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json",
+        },
+    };
+    const token = payload.token;
+    if (token) {
+        config.headers["x-auth-token"] = token;
+    }
+    return axios.post(`api/post/${payload.id}/edit`, payload, config);
+};
+
+function* PostEditUpload(action) {
+    try {
+        const result = yield call(PostEditUploadAPI, action.payload);
+        yield put({
+            type: POST_EDIT_UPLOADING_SUCCESS,
+            payload: result.data,
+        });
+        console.log(result);
+        yield put(push(`/post/${result.data._id}`));
+    } catch (e) {
+        yield put({
+            type: POST_EDIT_UPLOADING_FAILURE,
+            payload: e,
+        });
+    }
+}
+
+function* watchPostEditUpload() {
+    yield takeEvery(POST_EDIT_UPLOADING_REQUEST, PostEditUpload);
+}
+
 // Search
 const SearchResultAPI = (payload) => {
     return axios.get(`/api/search/${payload}`);
@@ -179,5 +217,5 @@ function* watchSearchResult() {
 
 
 export default function* postSaga() {
-    yield all([fork(watchloadPosts), fork(watchuploadPost), fork(watchloadPostDetail), fork(watchdeletePost)]);
+    yield all([fork(watchloadPosts), fork(watchuploadPost), fork(watchloadPostDetail), fork(watchdeletePost), fork(watchSearchResult), fork(watchPostEditUpload)]);
 }

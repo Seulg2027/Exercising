@@ -1,7 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet';
-import { POST_DETAIL_LOADING_REQUEST, USER_LOADING_REQUEST, POST_DELETE_REQUEST, COMMENT_DELETE_REQUEST, COMMENT_WRITE_REQUEST } from '../../redux/types';
+
+import {
+    POST_DETAIL_LOADING_REQUEST,
+    USER_LOADING_REQUEST,
+    POST_DELETE_REQUEST, 
+    COMMENT_DELETE_REQUEST, 
+    COMMENT_WRITE_REQUEST } from '../../redux/types';
+
 import { Button, Row, Container } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { GrowingSpinner } from '../../components/spinner/Spinner';
@@ -71,6 +78,7 @@ function PostDetail(req) {
 
     // 댓글 삭제
     const onCommentDeleteClick = (commentId) => {
+        console.log(commentId)
         dispatch({
             type: COMMENT_DELETE_REQUEST,
             payload: {
@@ -139,29 +147,29 @@ function PostDetail(req) {
                                 <Comments id={req.match.params.id} userId={userId} userName={userName} />
                                 {Array.isArray(comments)
                                     ? comments.map(({ contents, creator, date, _id, creatorName }) => (
-                                          <div key={_id} className="mb-2">
-                                              <Row className="d-flex justify-content-between p-2">
-                                                  <div style={{ fontSize: '1.1rem' }}>
-                                                      <b>{creatorName ? creatorName : creator}</b> &nbsp;
-                                                      <span className="font-weight-light" style={{ color: 'gray', fontSize: '0.8em' }}>
-                                                          &nbsp;{date}
-                                                      </span>
-                                                  </div>
-                                              </Row>
-                                              <Row className="p-2">
-                                                  <div>{contents}</div>
-                                              </Row>
-                                              {creator === userId && userId ? (
-                                                  <div className="d-flex justify-content-center">
-                                                      <span style={{ cursor: 'pointer' }} onClick={() => onCommentDeleteClick}>
-                                                          삭제
-                                                      </span>
-                                                  </div>
-                                              ) : (
-                                                  ''
-                                              )}
-                                          </div>
-                                      ))
+                                        <div key={_id} className="mb-2">
+                                            <Row className="d-flex justify-content-between p-2">
+                                                <div style={{ fontSize: '1.1rem' }}>
+                                                    <b>{creatorName ? creatorName : creator}</b> &nbsp;
+                                                    <span className="font-weight-light" style={{ color: 'gray', fontSize: '0.8em' }}>
+                                                        &nbsp;{date}
+                                                    </span>
+                                                </div>
+                                            </Row>
+                                            <Row className="p-2">
+                                                <div>{contents}</div>
+                                            </Row>
+                                            {creator === userId && userId ? (
+                                                <div className="d-flex justify-content-center">
+                                                    <span style={{ cursor: 'pointer' }} onClick={()=> onCommentDeleteClick(_id)}>
+                                                        삭제
+                                                    </span>
+                                                </div>
+                                            ) : (
+                                                ''
+                                            )}
+                                        </div>
+                                    ))
                                     : 'Creator'}
                             </Container>
                         </Row>

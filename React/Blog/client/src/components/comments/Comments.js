@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { InputGroup, InputGroupText, InputGroupAddon, Input, Form } from 'reactstrap';
+import { InputGroup, Input, Form, Button } from 'reactstrap';
 import { COMMENT_LOADING_REQUEST, COMMENT_WRITE_REQUEST } from '../../redux/types';
 
 function Comments({ id, userId, userName }) {
@@ -45,9 +45,7 @@ function Comments({ id, userId, userName }) {
             <Form onSubmit={onSubmit}>
                 <InputGroup style={{ width: '400px', height: '70px' }}>
                     <Input innerRef={resetValue} type="textarea" name="contents" id="contents" onChange={onChange} placeholder="comments" />
-                    <InputGroupAddon>
-                        <InputGroupText>등록</InputGroupText>
-                    </InputGroupAddon>
+                    <Button type="submit">등록</Button>
                 </InputGroup>
             </Form>
         </>

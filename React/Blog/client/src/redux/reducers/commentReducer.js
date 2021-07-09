@@ -11,15 +11,12 @@ import {
 } from '../types';
 
 const initialState = {
-    isAuthenticated: '',
+    isAuthenticated: false, // 처음엔 false로 해둠
     comments: [],
-    creator: '',
-    creatorName: '',
-    date: '',
+    creatorId: '',
     isLoading: '',
     errorMsg: '',
-    postId: '',
-    commentId: '',
+    // postId: '',
 };
 
 export default function (state = initialState, action) {
@@ -34,15 +31,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 isLoading: false,
-                creator: action.payload.creator,
-                creatorName: action.payload.creatorName,
-                date: action.payload.date,
-                comments: [...state.comments, action.payload.contents],
+                comments: action.payload, // 데이터 베이스에 저장된 comments를 가져온다.
             };
         case COMMENT_WRITE_SUCCESS:
             return {
                 ...state,
-                comments: action.payload,
+                comments: [...state.comments, action.payload], // 변경한 state값을 가져옴
                 isAuthenticated: true,
                 isLoading: false,
             };
@@ -51,9 +45,13 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 isLoading: false,
-                errorMsg: action.payload,
+                errorMsg: action.payload.data.msg,
             };
-
+        case COMMENT_DELETE_SUCCESS:
+            window.location.reload();
+            return {
+                ...state,
+            };
         default:
             return state;
     }

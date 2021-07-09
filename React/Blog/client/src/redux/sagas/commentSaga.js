@@ -1,5 +1,6 @@
 import { takeEvery, call, put, all, fork } from "redux-saga/effects";
 import axios from "axios";
+import { push } from "connected-react-router";
 import {
     COMMENT_DELETE_REQUEST,
     COMMENT_DELETE_SUCCESS,
@@ -40,18 +41,18 @@ function* watchloadComment(){
 
 //Write comment
 const commentWriteAPI = (payload) => {
-    const config ={
-        headers:{
-            "Content-Type" : "application/json"
-        },
-    }
+    // const config ={
+    //     headers:{
+    //         "Content-Type" : "application/json"
+    //     },
+    // }
 
-    const token = payload.token;
-    if(token) {
-        config.headers["x-auth-token"]= token;
-    }
+    // const token = payload.token;
+    // if(token) {
+    //     config.headers["x-auth-token"]= token;
+    // }
 
-    return axios.post(`/api/post/${payload}/comments`, payload, config);
+    return axios.post(`/api/post/${payload.id}/comments`, payload);
 }
 
 function* writeComment(action){
@@ -65,9 +66,11 @@ function* writeComment(action){
     } catch(e) {
         yield put({
             type: COMMENT_WRITE_FAILURE,
-            payload: e
+            payload: e.response
         });
-        console.log(e)
+        console.log(e);
+
+        yield push("/"); // react 라우터로 홈으로 보냄
     }
 }
 
@@ -77,8 +80,44 @@ function* watchWriteComment(){
 
 
 // Delete Comment
+const deleteCommentAPI = (payload) =>{
+    const config = {
+        headers: {
+            "Content-Type" : "application/json",
+        },
+    };
 
+    const token = payload.token;
+
+    if (token) {
+        config.headers["x-auth-token"] = token;
+    }
+
+    return axios.delete(
+        `/api/post/comment/${payload.commentId}`, payload, config
+    );
+};
+
+function* deleteComment(action){
+    try{
+        const result = yield call(deleteCommentAPI, action.payload);
+
+        yield put({
+            type: COMMENT_DELETE_SUCCESS,
+            payload: result.data,
+        });
+    } catch(e) {
+        yield put({
+            type: COMMENT_DELETE_FAILURE,
+            payload: e.response,
+        });
+    }
+}
+
+function* watchdeleteComment() {
+    yield takeEvery(COMMENT_DELETE_REQUEST, deleteComment);
+}
 
 export default function* commentSaga (){
-    yield all([fork(watchWriteComment), fork(watchloadComment)]);
+    yield all([fork(watchWriteComment), fork(watchloadComment), fork(watchdeleteComment)]);
 }

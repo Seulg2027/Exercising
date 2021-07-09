@@ -8,6 +8,9 @@ import {
     POST_DETAIL_LOADING_REQUEST,
     POST_DETAIL_LOADING_SUCCESS,
     POST_DETAIL_LOADING_FAILURE,
+    POST_EDIT_UPLOADING_FAILURE,
+    POST_EDIT_UPLOADING_REQUEST,
+    POST_EDIT_UPLOADING_SUCCESS,
     SEARCH_REQUEST,
     SEARCH_SUCCESS,
     SEARCH_FAILURE
@@ -79,6 +82,25 @@ export default function (state = initialState, action) {
                 ...state,
                 error: action.payload,
                 loading: false,
+            };
+        // Edit Uploading
+        case POST_EDIT_UPLOADING_REQUEST:
+            return {
+            ...state,
+            loading: true,
+            };
+        case POST_EDIT_UPLOADING_SUCCESS:
+            return {
+            ...state,
+            posts: action.payload,
+            isAuthenticated: true,
+            loading: false,
+            };
+        case POST_EDIT_UPLOADING_FAILURE:
+            return {
+            ...state,
+            error: action.payload,
+            loading: false,
             };
         case SEARCH_REQUEST:
             return {

@@ -20,6 +20,8 @@ import Findpassword from './normalRoute/Findpassword';
 import PostList from './normalRoute/PostList';
 import PostWrite from './normalRoute/PostWrite';
 import PostDetail from './normalRoute/PostDetail';
+import PostEdit from "./normalRoute/PostEdit";
+import { EditProtectedRoute } from "./protectedRoute/ProtectedRoute";
 
 function Router() {
     // mountedComponent는 컴포넌트가 mount되는지 안되는지 구별
@@ -51,6 +53,7 @@ function Router() {
                     <Route path="/postwrite" exact component={PostWrite} />
                     <Route path="/post/:id" exact component={PostDetail} />
                     <Route path="/search/:searchTerm" exact render={() => <Search theme={theme} />} />
+                    <EditProtectedRoute path="/post/:id/edit" exact component={PostEdit}/>
                 </Switch>
             </Container>
             <Footer theme={theme}/>
