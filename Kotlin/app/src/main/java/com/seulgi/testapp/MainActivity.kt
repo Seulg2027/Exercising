@@ -1,5 +1,6 @@
 package com.seulgi.testapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
@@ -33,8 +34,10 @@ class MainActivity : AppCompatActivity() {
             auth.createUserWithEmailAndPassword(email.text.toString(), pwd.text.toString())
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
+                            // 회원가입 성공 //
                             Toast.makeText(this, "ok", Toast.LENGTH_SHORT).show()
                         } else {
+                            // 회원가입 실패 //
                             Toast.makeText(this, "no", Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -55,6 +58,10 @@ class MainActivity : AppCompatActivity() {
                             // 로그인 성공 //
                             Toast.makeText(this, "ok", Toast.LENGTH_SHORT).show()
                             Toast.makeText(this, auth.currentUser?.uid.toString(), Toast.LENGTH_SHORT).show()
+
+                            // board list로 이동
+                            val intent = Intent(this, BoardListActivity::class.java)
+                            startActivity(intent)
                         } else {
                             // 로그인 실패 //
                             Toast.makeText(this, "no", Toast.LENGTH_SHORT).show()
