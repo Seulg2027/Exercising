@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "824073092786",
+    "project_id": "basic-165c5",
+    "storage_bucket": "basic-165c5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824073092786:android:56da2ddb22f8000285d3ab",
+        "android_client_info": {
+          "package_name": "com.seulgi.basic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824073092786-pgq9u67vv0752aicchvg21shsov54cpm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhU3RaBSjCfS3WUnzfK10Ss1kVeyPCyio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824073092786-pgq9u67vv0752aicchvg21shsov54cpm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
