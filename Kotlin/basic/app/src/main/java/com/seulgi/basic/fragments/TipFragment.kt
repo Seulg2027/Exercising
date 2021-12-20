@@ -1,5 +1,6 @@
 package com.seulgi.basic.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import com.seulgi.basic.MainActivity
 import com.seulgi.basic.R
+import com.seulgi.basic.contentsList.ContentListActivity
 import com.seulgi.basic.databinding.FragmentHomeBinding
 import com.seulgi.basic.databinding.FragmentTipBinding
 
@@ -35,6 +38,19 @@ class TipFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tip, container, false)
+
+        binding.category1.setOnClickListener {
+            // 카테고리 별로 넘겨주는 정보를 다르게 하려면 intent.putExtra 사용
+            val intent = Intent(context, ContentListActivity::class.java)
+            intent.putExtra("category", "category1")
+            startActivity(intent)
+        }
+
+        binding.category2.setOnClickListener {
+            val intent = Intent(context, ContentListActivity::class.java)
+            intent.putExtra("category", "category2")
+            startActivity(intent)
+        }
 
         binding.homeTap.setOnClickListener {
             it.findNavController().navigate(R.id.action_tipFragment_to_homeFragment2)
