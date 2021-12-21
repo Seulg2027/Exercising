@@ -12,26 +12,28 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.seulgi.basic.R
+import com.seulgi.basic.fragments.BookmarkFragment
 import com.seulgi.basic.utils.FBRef
 import com.seulgi.basic.utils.FBauth
 
-// Model 값을 받는 것...
-class ContentsRVAdapter(
+class BookmarkRVAdapter(
         val context : Context,
         val items : ArrayList<ContentModel>,
         val keyList : ArrayList<String>,
         val bookmarkIdList : MutableList<String>)
-        : RecyclerView.Adapter<ContentsRVAdapter.Viewholder>() {
+    : RecyclerView.Adapter<BookmarkRVAdapter.Viewholder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentsRVAdapter.Viewholder {
+    private val TAG = BookmarkRVAdapter::class.java.simpleName
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkRVAdapter.Viewholder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.contents_rv_item, parent, false)
 
-        Log.d("ContentsRVAdapter", keyList.toString())
-        Log.d("ContentsRVAdapter", bookmarkIdList.toString())
+        Log.d(TAG, keyList.toString())
+        Log.d(TAG, bookmarkIdList.toString())
         return Viewholder(v)
     }
 
-    override fun onBindViewHolder(holder: ContentsRVAdapter.Viewholder, position: Int) {
+    override fun onBindViewHolder(holder: BookmarkRVAdapter.Viewholder, position: Int) {
         // 데이터가 바인딩 될 때마다 title, url등을 담은 items와 uid값을 담은 keylist가 들어옴
         holder.bindItems(items[position], keyList[position])
     }
@@ -60,23 +62,6 @@ class ContentsRVAdapter(
                 bookmarkArea.setImageResource(R.drawable.bookmark_color)
             } else {
                 bookmarkArea.setImageResource(R.drawable.bookmark_white)
-            }
-
-            bookmarkArea.setOnClickListener {
-                Toast.makeText(context, key, Toast.LENGTH_SHORT).show()
-
-                // 북마크가 있을 때
-                if(bookmarkIdList.contains(key)){
-                    FBRef.bookmarkRef
-                            .child(FBauth.getUid())
-                            .child(key)
-                            .removeValue() // remove
-                } else{ // 없을 때
-                    FBRef.bookmarkRef
-                            .child(FBauth.getUid())
-                            .child(key)
-                            .setValue(BookmarkModel(true))
-                }
             }
 
             contentsTitle.text = item.title

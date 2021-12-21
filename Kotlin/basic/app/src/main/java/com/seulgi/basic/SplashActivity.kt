@@ -9,18 +9,18 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.seulgi.basic.auth.IntroActivity
+import com.seulgi.basic.utils.FBauth
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        auth = Firebase.auth
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
         // 로그인이 된 상황, 안된 상황
-        if(auth.currentUser?.uid == null){
+        if(FBauth.getUid() == null){
             Handler().postDelayed({
                 startActivity(Intent(this, IntroActivity::class.java))
                 finish()

@@ -15,10 +15,16 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.seulgi.basic.R
+import com.seulgi.basic.utils.FBRef
+import com.seulgi.basic.utils.FBauth
 
 class ContentListActivity : AppCompatActivity() {
     // 원래 onCreate 함수의 지역변수로 설정했으나,, if else 코드에서 인식을 못해서 전역변수로
     lateinit var myRef : DatabaseReference
+
+    val bookmarkIdList = mutableListOf<String>()
+
+    lateinit var rvAdapter: ContentsRVAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,13 +32,12 @@ class ContentListActivity : AppCompatActivity() {
 
         // 화면에 나타낼 리스트
         val items = ArrayList<ContentModel>()
-        val rvAdapter = ContentsRVAdapter(baseContext, items)
+        val itemkeylist = ArrayList<String>()
+        rvAdapter = ContentsRVAdapter(baseContext, items, itemkeylist, bookmarkIdList)
 
         val database = Firebase.database
 
         val category = intent.getStringExtra("category")
-
-
         if (category == "category1"){
             // reference 이름
             myRef = database.getReference("contents")
@@ -50,6 +55,7 @@ class ContentListActivity : AppCompatActivity() {
 
                     val item = dataModel.getValue(ContentModel::class.java)
                     items.add(item!!)
+                    itemkeylist.add(dataModel.key.toString())
                 }
                 rvAdapter.notifyDataSetChanged() // 밑에 함수들이 먼저 실행되고 데이터가 나중에 불러와지기 때문에 동기화가 필요
             }
@@ -72,17 +78,19 @@ class ContentListActivity : AppCompatActivity() {
         // 두줄로 된다
         rv.layoutManager = GridLayoutManager(this, 2)
 
-        // 아이템을 클릭하였을 경우
-        rvAdapter.itemClick = object : ContentsRVAdapter.ItemClick {
-            override fun onClick(view: View, position: Int){
-                Toast.makeText(baseContext, items[position].title, Toast.LENGTH_SHORT).show()
+        getBookmarkData()
 
-                val intent = Intent(this@ContentListActivity, ContentShowActivity::class.java)
-                // showActivity로 이동할 시 url 넘겨주기
-                intent.putExtra("url", items[position].webUrl)
-                startActivity(intent)
-            }
-        }
+        // 아이템을 클릭하였을 경우
+//        rvAdapter.itemClick = object : ContentsRVAdapter.ItemClick {
+//            override fun onClick(view: View, position: Int){
+//                Toast.makeText(baseContext, items[position].title, Toast.LENGTH_SHORT).show()
+//
+//                val intent = Intent(this@ContentListActivity, ContentShowActivity::class.java)
+//                // showActivity로 이동할 시 url 넘겨주기
+//                intent.putExtra("url", items[position].webUrl)
+//                startActivity(intent)
+//            }
+//        }
 
 
 
@@ -111,6 +119,30 @@ class ContentListActivity : AppCompatActivity() {
 //                        "https://img1.daumcdn.net/thumb/R658x0.q70/?fname=https://t1.daumcdn.net/news/202112/09/onehomelife/2021120901322807274q4.png",
 //                        "https://content.v.kakao.com/v/kOuNl8aqZ4")
 //        )
+    }
+
+    private fun getBookmarkData() {
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                bookmarkIdList.clear() // 기존에 있던 리스트를 초기화 해줘야 정상적으로 돌아감..
+
+                // Get Post object and use the values to update the UI
+                for (dataModel in dataSnapshot.children){
+                    bookmarkIdList.add(dataModel.key.toString())
+                }
+                Log.d("ContentsListActivity", bookmarkIdList.toString())
+                rvAdapter.notifyDataSetChanged()
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w("ContentListActivity", "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        FBRef.bookmarkRef
+                .child(FBauth.getUid()) // 로그인 된 사용자의 북마크를 볼수 있음
+                .addValueEventListener(postListener)
     }
 
 
