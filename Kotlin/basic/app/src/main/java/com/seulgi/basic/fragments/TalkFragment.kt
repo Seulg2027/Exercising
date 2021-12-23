@@ -35,8 +35,11 @@ private const val ARG_PARAM2 = "param2"
 class TalkFragment : Fragment() {
     private lateinit var binding : FragmentTalkBinding
 
-    // board들을 boardlist에 넣는다.
+    // board들을 boardlist에 넣는다. 첫번째 방법
     private val boardDataList = mutableListOf<BoardModel>()
+    // 두번째 방법
+    private val boardKeyList = mutableListOf<String>()
+
 
     private var TAG = TalkFragment::class.java.simpleName
     private lateinit var boardLVAdapter : BoardListLVAdapter
@@ -64,9 +67,10 @@ class TalkFragment : Fragment() {
 
         binding.boardListView.setOnItemClickListener{ parent, view, position, id ->
             val intent = Intent(context, BoardInsideActivity::class.java)
-            intent.putExtra("title", boardDataList[position].title)
-            intent.putExtra("content", boardDataList[position].content)
-            intent.putExtra("time", boardDataList[position].time)
+//            intent.putExtra("title", boardDataList[position].title)
+//            intent.putExtra("content", boardDataList[position].content)
+//            intent.putExtra("time", boardDataList[position].time)
+            intent.putExtra("key", boardKeyList[position])
             startActivity(intent)
         }
 
@@ -108,7 +112,10 @@ class TalkFragment : Fragment() {
 
                     val item = dataModel.getValue(BoardModel::class.java)
                     boardDataList.add(item!!)
+                    boardKeyList.add(dataModel.key.toString()) // 키값을 집어넣는다..
                 }
+                boardDataList.reverse()
+                boardKeyList.reverse()
                 boardLVAdapter.notifyDataSetChanged()
                 Log.d(TAG, boardDataList.toString())
             }

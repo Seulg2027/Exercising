@@ -3,6 +3,8 @@
     package="com.seulgi.basic">
     <!-- glide 사용을 위한 permission 허용 -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 이미지 사용을 위한 권한  -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
