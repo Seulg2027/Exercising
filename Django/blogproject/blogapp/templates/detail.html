@@ -1,0 +1,26 @@
+<h1>제목</h1>
+{{ blog_detail.title }}
+
+<h1>본문</h1>
+{{ blog_detail.body }}
+
+<h1>날짜</h1>
+{{ blog_detail.date }}
+
+{% if blog_detail.photo %}
+  {{ blog_detail.photo.path }}
+  <img src="{{ blog_detail.photo.url }}" />
+{% endif %}
+
+<h1>댓글</h1>
+<form method="POST" action="{% url 'create_comment' blog_detail.id %}">
+  {% csrf_token %}
+  {{ comment_form }}
+  <input type="submit"/>
+</form>
+
+<!-- 댓글 목록 -->
+{% for comment in blog_detail.comment_set.all %}
+  <p>{{ comment }}</p>
+  <hr>
+{% endfor %}
