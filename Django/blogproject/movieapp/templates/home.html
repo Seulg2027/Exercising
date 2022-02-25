@@ -1,0 +1,16 @@
+{% for o in obj %}
+
+<a href="{% url 'movieapp:detail' o.id %}">영화 상세보기</a>
+{{ o.original_title }}<br/>
+<img src="https://image.tmdb.org/t/p/w500/{{ o.poster_path }}" /><br/>
+<img src="https://image.tmdb.org/t/p/w500/{{ o.backdrop_path }}" /><br/>
+{{ o.vote_average }}<br/>
+{{ o.id }}<br/>
+
+{% endfor %}
+
+<form action="" method="POST">
+  {% csrf_token %}
+  <input type="text" id="search" name="search" />
+  <input type="submit" value="검색" />
+</form>

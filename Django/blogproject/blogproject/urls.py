@@ -29,4 +29,5 @@ urlpatterns = [
     path('detail/<int:blog_id>/', detail, name="detail"),
     path('createcomment/<int:blog_id>/', create_comment, name="create_comment"),
     path('accounts/', include('accounts.urls')),
+    path('movies/', include('movieapp.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
