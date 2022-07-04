@@ -47,9 +47,10 @@ class BoardInsideActivity : AppCompatActivity() {
         // Reference to an image file in Cloud Storage
         // 이미지 파일에 접근 변수
         val storageReference = Firebase.storage.reference.child(key + ".png")
+        Log.d(TAG, key)
 
         // ImageView in your Activity
-        val imageViewFromFB = findViewById<ImageView>(R.id.imageArea)
+        val imageViewFromFB = findViewById<ImageView>(R.id.getImageArea)
 
         // Download directly from StorageReference using Glide
         // (See MyAppGlideModule for Loader registration)

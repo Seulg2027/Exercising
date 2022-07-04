@@ -115,7 +115,7 @@ class TalkFragment : Fragment() {
                     boardKeyList.add(dataModel.key.toString()) // 키값을 집어넣는다..
                 }
                 boardDataList.reverse()
-                boardKeyList.reverse()
+                boardKeyList.reverse() // 데이터가 reverse되기 때문에 key값도 똑같이 반대로 해줌
                 boardLVAdapter.notifyDataSetChanged()
                 Log.d(TAG, boardDataList.toString())
             }
